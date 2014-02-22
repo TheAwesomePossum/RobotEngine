@@ -5,12 +5,15 @@ This is the file any user will import
 '''
 
 import time as t
-from Sensors import sensorList
+import piface.pfio as pi
+from Sensors import *
+from Motors import *
 
 #Engine Class
 #this is the center/heartbeat of the entire system
 class Engine:
     def __init__(self, loopFunction, tick):
+        pi.init()
         self.tick = tick
         self.update = loopFunction
         self.nextTime = 0

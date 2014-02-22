@@ -6,6 +6,8 @@ Engine. It also holds a list of every sensor that is dieclared for an individual
 project to be used by the Engine heartbeat.
 '''
 
+from Engine import pi
+
 #Global Sensor List
 sensorList = []
 
@@ -22,5 +24,24 @@ class Sensor:
         pass
 
     # will be used to get the current value of the sensor
-    def get_value():
+    def get_v():
         pass
+
+class Input(Sensor):
+
+    def __init__(self, pin):
+        Sensor.__init__(self)
+        self.pin = pin + 1
+        self.value = 0
+
+    def update(self):
+        self.value = pi.digital_read(self.pin)
+
+    def get_v(self):
+        return self.value
+
+def IR(pin):
+    return Input(pin)
+
+def button(pin):
+    return Input(pin)
