@@ -1,5 +1,6 @@
 '''
 Author: Graham Montgomery
+Western State Colorado University
 
 This is the file any user will import
 '''
@@ -18,14 +19,14 @@ class Engine:
         self.update = loopFunction
         self.nextTime = 0
         self.spinning = False;
-    
+            
     def setNextTime(self):
         '''
         for Engine use only
         sets the next time for the engine to update
         '''
         self.nextTime = t.time() + self.tick
-
+        
     def spinOnce(self):
         '''
         mostly used for debugging

@@ -1,5 +1,6 @@
 '''
 Author: Graham Montgomery
+Western State Colorado University
 
 This is where the motor controllers will be defined along with anykind of output
 '''
