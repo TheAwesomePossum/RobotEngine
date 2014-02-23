@@ -54,7 +54,6 @@ class Camera(Sensor):
     def update(self):
         time = self.nexttime - t.time()
         if time < 0:
-            print "pic"
             self.camera.capture("pic" + str(self.value) + ".jpg")
             self.value = (self.value + 1) % 5 
             self.nexttime = t.time() + 3 
