@@ -7,7 +7,9 @@ Engine. It also holds a list of every sensor that is dieclared for an individual
 project to be used by the Engine heartbeat.
 '''
 
-from Engine import pi, t
+from PiFace import pi
+from Motors import outpin
+import time as t
 import picamera
 import cv
 
@@ -57,6 +59,17 @@ class Camera(Sensor):
             self.camera.capture("pic" + str(self.value) + ".jpg")
             self.value = (self.value + 1) % 5 
             self.nexttime = t.time() + 3 
+
+class Sonar(Sensor):
+
+    def __init__(self, inpin, outpin):
+        Sensor.__init__(self)
+        self.inpin = inpin
+        self.outpin = outpin
+        self.v = 100
+    
+    def update(self):
+
 
 def camera():
     return Camera()

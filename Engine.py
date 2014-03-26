@@ -6,7 +6,7 @@ This is the file any user will import
 '''
 
 import time as t
-import piface.pfio as pi
+from PiFace import pi
 from Sensors import *
 from Motors import *
 
@@ -14,7 +14,6 @@ from Motors import *
 #this is the center/heartbeat of the entire system
 class Engine:
     def __init__(self, loopFunction, tick):
-        pi.init()
         self.tick = tick
         self.update = loopFunction
         self.nextTime = 0
@@ -28,7 +27,7 @@ class Engine:
         self.nextTime = t.time() + self.tick
         
     def spinOnce(self):
-        '''
+        ''':
         mostly used for debugging
         ticks the engine once
         '''
