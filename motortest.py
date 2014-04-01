@@ -8,20 +8,20 @@ def move(speedl, speedr):
     l.set(speedl)
 
 def fullfor():
-    r.set(3200)
-    l.set(3200)
+    r.set(-1600)
+    l.set(-1600)
 
 def fullback():
-    r.set(-3200)
-    l.set(-3200)
+    r.set(1600)
+    l.set(1600)
 
 def left():
-    r.set(3200)
-    l.set(-3200)
+    r.set(-1600)
+    l.set(1600)
 
 def right():
-    r.set(-3200)
-    l.set(3200)
+    r.set(1600)
+    l.set(-1600)
 
 def stop():
     r.stop()
