@@ -24,6 +24,7 @@ class Motor:
 
     def __init__(self, serialpin):
         self.serialpin = serialpin
+        os.system('./SmcCmd -d ' + str(self.serialpin) + ' --resume')
 
     def set(self, speed):
         #print "in motor"
@@ -33,5 +34,5 @@ class Motor:
         os.system('./SmcCmd -d ' + str(self.serialpin) + ' --speed ' + str(power))
 
     def stop(self):
-        os.system('./SmcCmd -d ' + str(self.serialpin) + ' --stop')
+        self.set(0)
         
