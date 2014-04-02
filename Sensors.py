@@ -87,25 +87,23 @@ class Sonar(Sensor):
 
 class Beacon(Sensor):
 
-    def __init__(self)
+    def __init__(self):
         Sensor.__init__(self)
-        self.ot13 = string.maketrans( 
-            "ABCDEFGHIJKLMabcdefghijklmNOPQRSTUVWXYZnopqrstuvwxyz", 
-            "NOPQRSTUVWXYZnopqrstuvwxyzABCDEFGHIJKLMabcdefghijklm")
-        self.test=serial.Serial("/dev/ttyAMA0",9600, timeout = 1)
-        self.test.open()
         self.updateTime = t.time()
 
     def update(self):
         ct = t.time()
         if ct > self.updateTime:
+            test=serial.Serial("/dev/ttyAMA0",9600, timeout = 1)
+            test.open()
             try:
                 #print "attempting"
                 line = test.readline()
                 #inp = string.translate(line, rot13)
-                self.value = int(line)
+                self.value = int(str(line))
             except KeyboardInterrupt:
                 pass
+            test.close()
             self.updateTime = ct + 3
 
 def camera():

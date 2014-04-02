@@ -12,10 +12,10 @@ b = Beacon()
 
 def logic():
     print b.value
-    l1.set(b1.get_v())
-    l2.set(b2.get_v())
-    l3.set(b3.get_v())
-    if b4.get_v() == 1:
+    l1.set(b1.value)
+    l2.set(b2.value)
+    l3.set(b3.value)
+    if b4.value == 1:
         e.stop()
 
 e = engine(logic, .1)
