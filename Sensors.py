@@ -101,7 +101,7 @@ class Beacon(Sensor):
                 line = test.readline()
                 #inp = string.translate(line, rot13)
                 try:
-                    self.value = int(str(line))\
+                    self.value = int(str(line))
                 except ValueError:
                     self.value = 200
             except KeyboardInterrupt:
