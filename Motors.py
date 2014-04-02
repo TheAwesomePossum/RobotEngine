@@ -19,6 +19,9 @@ class Output:
 def outpin(pin):
     return Output(pin)
 
+def light(pin):
+    return Output(pin)
+
 class Motor:
     
     _AllMotors = []

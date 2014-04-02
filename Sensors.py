@@ -69,7 +69,7 @@ class Sonar(Sensor):
         self.v = 100
     
     def update(self):
-
+        pass
 
 def camera():
     return Camera()
