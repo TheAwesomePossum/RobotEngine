@@ -100,7 +100,10 @@ class Beacon(Sensor):
                 #print "attempting"
                 line = test.readline()
                 #inp = string.translate(line, rot13)
-                self.value = int(str(line))
+                try:
+                    self.value = int(str(line))\
+                except ValueError:
+                    self.value = 200
             except KeyboardInterrupt:
                 pass
             test.close()
