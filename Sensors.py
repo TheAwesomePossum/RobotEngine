@@ -9,6 +9,8 @@ project to be used by the Engine heartbeat.
 
 from PiFace import pi
 from Motors import outpin
+import serial
+import string
 import time as t
 import picamera
 import cv
@@ -23,13 +25,10 @@ class Sensor:
 
     def __init__(self):
         sensorList.append(self)
+        self.value = 0
     
     # update will be used by every sensor to update it's value every tick
     def update():
-        pass
-
-    # will be used to get the current value of the sensor
-    def get_v():
         pass
 
 class Input(Sensor):
@@ -41,9 +40,6 @@ class Input(Sensor):
 
     def update(self):
         self.value = pi.digital_read(self.pin)
-
-    def get_v(self):
-        return self.value
 
 class Camera(Sensor):
 
@@ -60,16 +56,57 @@ class Camera(Sensor):
             self.value = (self.value + 1) % 5 
             self.nexttime = t.time() + 3 
 
+class SonarUpdater(Sensor):
+
+    _sensors = []
+
+    def __init__(self):
+        Sensor.__init__(self)
+        SonarUpdater._sensors.append(sensor)
+
+    def add(sensor):
+        SonarUpdater._sensors.append(sensor)
+
+    def update(self):
+        pass
+
 class Sonar(Sensor):
+    
+    _updater = SonarUpdater
 
     def __init__(self, inpin, outpin):
         Sensor.__init__(self)
+        sensorList.remove(self)
         self.inpin = inpin
         self.outpin = outpin
         self.v = 100
+        self.step = 0
     
     def update(self):
         pass
+
+class Beacon(Sensor):
+
+    def __init__(self)
+        Sensor.__init__(self)
+        self.ot13 = string.maketrans( 
+            "ABCDEFGHIJKLMabcdefghijklmNOPQRSTUVWXYZnopqrstuvwxyz", 
+            "NOPQRSTUVWXYZnopqrstuvwxyzABCDEFGHIJKLMabcdefghijklm")
+        self.test=serial.Serial("/dev/ttyAMA0",9600, timeout = 1)
+        self.test.open()
+        self.updateTime = t.time()
+
+    def update(self):
+        ct = t.time()
+        if ct > self.updateTime:
+            try:
+                #print "attempting"
+                line = test.readline()
+                #inp = string.translate(line, rot13)
+                self.value = int(line)
+            except KeyboardInterrupt:
+                pass
+            self.updateTime = ct + 3
 
 def camera():
     return Camera()
