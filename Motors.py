@@ -20,9 +20,21 @@ def outpin(pin):
     return Output(pin)
 
 class Motor:
+    
+    _AllMotors = []
+
+    def _FullStop_():
+        for motor in _AllMotors:
+            motor.stop()
+
+    def _ResetAll_():
+        for motor in _AllMotors:
+            os.system('./SmcCmd -d ' + str(motor.serialpin) + ' --stop')
+            os.system('./SmcCmd -d ' + str(motor.serialpin) + ' --resume')
 
     def __init__(self, serialpin):
         self.serialpin = serialpin
+        os.system('./SmcCmd -d ' + str(self.serialpin) + ' --resume')
 
     def set(self, speed): 
         os.system('./SmcCmd -d ' + str(self.serialpin) + ' --speed ' + str(speed))
@@ -31,5 +43,5 @@ class Motor:
         os.system('./SmcCmd -d ' + str(self.serialpin) + ' --speed ' + str(power))
 
     def stop(self):
-        os.system('./SmcCmd -d ' + str(self.serialpin) + ' --stop')
+        self.set(0)
         
