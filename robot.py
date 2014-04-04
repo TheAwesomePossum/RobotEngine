@@ -24,8 +24,8 @@ uncomment lines after debugging
 '''
 
 sFront = Sonar(7, 7)
-sRight = Sonar(6, 6)
-sLeft = Sonar(5, 5)
+#sRight = Sonar(6, 6)
+#sLeft = Sonar(5, 5)
 #sLeft = Sonar(4, 4)
 
 #define Motor Behaviors

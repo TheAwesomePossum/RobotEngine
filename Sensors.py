@@ -56,34 +56,47 @@ class Camera(Sensor):
             self.value = (self.value + 1) % 5 
             self.nexttime = t.time() + 3 
 
-class SonarUpdater(Sensor):
-
-    _sensors = []
-
-    def __init__(self):
-        Sensor.__init__(self)
-        SonarUpdater._sensors.append(sensor)
-
-    def add(sensor):
-        SonarUpdater._sensors.append(sensor)
-
-    def update(self):
-        pass
 
 class Sonar(Sensor):
-    
-    _updater = SonarUpdater
 
     def __init__(self, inpin, outpin):
         Sensor.__init__(self)
-        sensorList.remove(self)
         self.inpin = inpin
         self.outpin = outpin
-        self.v = 100
         self.step = 0
     
     def update(self):
-        pass
+        '''print "updating sonar"'''
+        piface.digital_write(self.trig, 1)
+        time.sleep(0.00001)
+        piface.digital_write(self.trig, 0)
+
+        start = time.time()
+        test = start
+
+        while piface.digital_read(self.echo) == 1:
+            start = time.time()
+            if test + ..01 > time.time():
+                end = -1
+                '''print "failure"'''
+                self.distance = -1
+                return
+        
+        end = start
+
+        while piface.digital_read(self.echo) == 0:
+            end = time.time()
+            if end > start + .01:
+                end = -1
+                '''print "failure to get distance"'''
+                self.distance = -1
+                return
+            time.sleep(.0001)
+
+        timing = end - start
+        self.value = (timing*340.29)
+
+        piface.digital_write(self.trig, 0)
 
 class Beacon(Sensor):
 
@@ -96,16 +109,23 @@ class Beacon(Sensor):
         if ct > self.updateTime:
             test=serial.Serial("/dev/ttyAMA0",9600, timeout = 1)
             test.open()
+            failed = False
             try:
                 #print "attempting"
                 line = test.readline()
+                snums = line.split(",") # nums[0] beacon, nums[1] compass heading
                 #inp = string.translate(line, rot13)
                 try:
-                    self.value = int(str(line))
+                    beac = int(str(snums[0]))
+                    comp = int(str(snums[1]))
                 except ValueError:
-                    self.value = 200
+                    Failed = True
             except KeyboardInterrupt:
                 pass
+            if Failed or beac == 200:
+                self.value = 200
+            else:
+                self.value = comp - beac - 90
             test.close()
             self.updateTime = ct + 3
 
