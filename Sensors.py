@@ -127,7 +127,7 @@ class Beacon(Sensor):
             if failed or self.beac >= 200:
                 self.value = 200
             else:
-                self.value = self.comp - self.beac - 90
+                self.value = (self.comp - self.beac + 90) % 180 
             test.close()
             self.updateTime = ct + 3
 
