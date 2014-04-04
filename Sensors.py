@@ -76,7 +76,7 @@ class Sonar(Sensor):
 
         while piface.digital_read(self.echo) == 1:
             start = time.time()
-            if test + ..01 > time.time():
+            if test + .01 > time.time():
                 end = -1
                 '''print "failure"'''
                 self.distance = -1
