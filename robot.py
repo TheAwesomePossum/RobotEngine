@@ -23,9 +23,9 @@ b = Beacon()
 uncomment lines after debugging
 '''
 
-#sFront = Sonar(7, 7)
-#sRight = Sonar(6, 6)
-#sBack = Sonar(5, 5)
+sFront = Sonar(7, 7)
+sRight = Sonar(6, 6)
+sLeft = Sonar(5, 5)
 #sLeft = Sonar(4, 4)
 
 #define Motor Behaviors
@@ -34,9 +34,23 @@ def move(rSpeed, lSpeed):
     rMotor.set(rSpeed)
     lMotor.set(lSpeed)
 
-#define logic
+#define special behaviors for avoidance
 
-delta = 89 # used for turning
+def avoidFront():
+    move(-1600, -800)
+    t.sleep(.5)
+    move(1600, 1600)
+    t.sleep(.25)
+
+def turnToBeacon(deg):
+    speed = 1600
+    if deg > 89:
+        deg -= 89*2
+        speed *= -1
+    move(speed, -speed)
+    t.sleep(deg/89)
+
+#define logic
 
 def logic():
     if b.value is 200:
@@ -48,6 +62,14 @@ def logic():
     else:
         move(-800, 800)
 
-engine(logic, .25)
-        
-    
+def dunes():
+    if b.value < 170 or b.value > 10:
+        turnToBeacon(b.value)
+    elif sFront.value < .3:
+        avoidFront()
+    else:
+        move(3000, 3000)
+
+e = engine(logic, .25)
+
+e.spin() 
