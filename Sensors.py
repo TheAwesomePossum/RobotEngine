@@ -103,6 +103,8 @@ class Beacon(Sensor):
     def __init__(self):
         Sensor.__init__(self)
         self.updateTime = t.time()
+        self.beac = 0
+        self.comp = 0
 
     def update(self):
         ct = t.time()
@@ -116,16 +118,16 @@ class Beacon(Sensor):
                 snums = line.split(",") # nums[0] beacon, nums[1] compass heading
                 #inp = string.translate(line, rot13)
                 try:
-                    beac = int(str(snums[0]))
-                    comp = int(str(snums[1]))
+                    self.beac = int(str(snums[0]))
+                    self.comp = int(str(snums[1]))
                 except ValueError:
                     Failed = True
             except KeyboardInterrupt:
                 pass
-            if failed or beac == 200:
+            if failed or self.beac == 200:
                 self.value = 200
             else:
-                self.value = comp - beac - 90
+                self.value = self.comp - self.beac - 90
             test.close()
             self.updateTime = ct + 3
 
