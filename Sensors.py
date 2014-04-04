@@ -122,7 +122,7 @@ class Beacon(Sensor):
                     Failed = True
             except KeyboardInterrupt:
                 pass
-            if Failed or beac == 200:
+            if failed or beac == 200:
                 self.value = 200
             else:
                 self.value = comp - beac - 90
